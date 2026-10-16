@@ -1,0 +1,31 @@
+[package]
+name = "uu_astgrep"
+description = "astgrep ~ (recurbusybox) structural code search"
+repository = "https://github.com/icehomura/RecurBusyBox/tree/main/src/uu/astgrep"
+version.workspace = true
+license.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+readme.workspace = true
+
+[lib]
+path = "src/astgrep.rs"
+doctest = false
+
+[dependencies]
+clap = { workspace = true }
+uucore = { workspace = true }
+ast-grep-core = "0.38"
+ast-grep-config = "0.38"
+ast-grep-language = "0.38"
+ignore = "0.4"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "astgrep"
+path = "src/main.rs"
