@@ -1,3 +1,23 @@
+# RecurBusyBox
+
+A multi-call binary of high-performance Rust tools, built for [RecurCode](https://github.com/icehomura/RecurCode) and its agents.
+
+RecurBusyBox is a fork of [uutils/coreutils](https://github.com/uutils/coreutils): it keeps the full cross-platform GNU-compatible utility set (so it is a real BusyBox for Windows, macOS and Linux) and adds a growing set of **search / edit / text-processing** applets built directly on the upstream Rust engines:
+
+| applet | engine |
+| --- | --- |
+| `rg` | ripgrep's `grep-regex` + `grep-searcher` + `ignore` |
+
+Invoke it BusyBox-style (`recurbusybox rg ...`), or symlink/copy it under an applet name (`rg`) and it dispatches on `argv[0]`.
+
+```console
+$ recurbusybox --list
+$ recurbusybox rg -n 'TODO' src
+$ rg -i 'fn uumain' .            # same binary, argv[0] dispatch
+```
+
+---
+
 <!-- markdownlint-disable MD033 MD041 MD002 -->
 <!-- markdownlint-disable commands-show-output no-duplicate-heading -->
 <!-- spell-checker:ignore markdownlint ; (options) DESTDIR UTILNAME manpages reimplementation oranda libclang libcrypto FIPS -->
