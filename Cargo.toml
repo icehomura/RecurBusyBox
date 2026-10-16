@@ -6,7 +6,7 @@
 [package]
 name = "coreutils"
 description = "coreutils ~ GNU coreutils (updated); implemented as universal (cross-platform) utils, written in Rust"
-default-run = "coreutils"
+default-run = "recurbusybox"
 repository = "https://github.com/uutils/coreutils"
 edition.workspace = true
 rust-version.workspace = true
@@ -311,6 +311,7 @@ ptx = { optional = true, version = "0.13.0", package = "uu_ptx", path = "src/uu/
 pwd = { optional = true, version = "0.13.0", package = "uu_pwd", path = "src/uu/pwd" }
 readlink = { optional = true, version = "0.13.0", package = "uu_readlink", path = "src/uu/readlink" }
 realpath = { optional = true, version = "0.13.0", package = "uu_realpath", path = "src/uu/realpath" }
+rg = { optional = true, version = "0.13.0", package = "uu_rg", path = "src/uu/rg" }
 rm = { optional = true, version = "0.13.0", package = "uu_rm", path = "src/uu/rm" }
 rmdir = { optional = true, version = "0.13.0", package = "uu_rmdir", path = "src/uu/rmdir" }
 seq = { optional = true, version = "0.13.0", package = "uu_seq", path = "src/uu/seq" }
@@ -400,7 +401,7 @@ rustix = { workspace = true, features = ["net", "process"] }
 phf_codegen.workspace = true
 
 [features]
-default = ["feat_common_core", "feat_diagnostics"]
+default = ["feat_common_core", "feat_diagnostics", "feat_recur_tools"]
 ## OS feature shortcodes
 unix = ["feat_os_unix"]
 windows = ["feat_os_windows"]
@@ -451,6 +452,10 @@ selinux = ["dep:selinux"]
 # crate declares is there for building that crate on its own, and is
 # deliberately not listed here.
 feat_diagnostics = ["uucore/diagnostics"]
+# RecurBusyBox additions: high-performance search/edit tools built on the same
+# upstream Rust engines (ripgrep's `grep-*`, ast-grep's core, etc.). Grouped
+# under one feature so they can be toggled independently of the coreutils set.
+feat_recur_tools = ["rg"]
 ## Optional feature for stdbuf
 # "feat_external_libstdbuf" == use an external libstdbuf.so for stdbuf instead of embedding it
 feat_external_libstdbuf = ["stdbuf/feat_external_libstdbuf"]
@@ -681,7 +686,7 @@ test = ["uu_test"]
 workspace = true
 
 [[bin]]
-name = "coreutils"
+name = "recurbusybox"
 path = "src/bin/coreutils.rs"
 
 [[bin]]
