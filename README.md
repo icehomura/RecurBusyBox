@@ -4,9 +4,16 @@ A multi-call binary of high-performance Rust tools, built for [RecurCode](https:
 
 RecurBusyBox is a fork of [uutils/coreutils](https://github.com/uutils/coreutils): it keeps the full cross-platform GNU-compatible utility set (so it is a real BusyBox for Windows, macOS and Linux) and adds a growing set of **search / edit / text-processing** applets built directly on the upstream Rust engines:
 
-| applet | engine |
-| --- | --- |
-| `rg` | ripgrep's `grep-regex` + `grep-searcher` + `ignore` |
+| applet | purpose | engine |
+| --- | --- | --- |
+| `rg` | recursive regexp search | ripgrep's `grep-regex` + `grep-searcher` + `ignore` |
+| `fd` | recursive file finder, `.gitignore`-aware | `ignore` |
+| `sd` | find & replace (in place or streamed) | `regex` |
+| `astgrep` | structural (AST) code search | ast-grep's `ast-grep-core` + tree-sitter |
+| `jq` | JSON processor | jaq (`jaq-core` + `jaq-json` + `jaq-std`) |
+| `tokei` | lines-of-code statistics | `tokei` |
+
+The coreutils set is included in full: releases build with `feat_os_unix` (Linux/macOS) or `feat_os_windows` (Windows), so every utility that compiles for the target ships.
 
 Invoke it BusyBox-style (`recurbusybox rg ...`), or symlink/copy it under an applet name (`rg`) and it dispatches on `argv[0]`.
 
