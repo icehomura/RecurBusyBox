@@ -1,0 +1,29 @@
+[package]
+name = "uu_tree"
+description = "tree ~ (recurbusybox)"
+repository = "https://github.com/icehomura/RecurBusyBox/tree/main/src/uu/tree"
+version.workspace = true
+license.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+readme.workspace = true
+
+[lib]
+path = "src/tree.rs"
+doctest = false
+
+[dependencies]
+clap = { workspace = true }
+uucore = { workspace = true }
+ignore = "0.4"
+globset = "0.4"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "tree"
+path = "src/main.rs"
