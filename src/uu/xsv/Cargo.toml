@@ -1,0 +1,29 @@
+[package]
+name = "uu_xsv"
+description = "xsv ~ (recurbusybox)"
+repository = "https://github.com/icehomura/RecurBusyBox/tree/main/src/uu/xsv"
+version.workspace = true
+license.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+readme.workspace = true
+
+[lib]
+path = "src/xsv.rs"
+doctest = false
+
+[dependencies]
+clap = { workspace = true }
+uucore = { workspace = true }
+csv = "1.4"
+regex = { workspace = true }
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "xsv"
+path = "src/main.rs"
