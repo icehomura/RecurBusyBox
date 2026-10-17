@@ -1,0 +1,32 @@
+[package]
+name = "uu_tar"
+description = "tar ~ (recurbusybox) tar archive create/extract/list"
+repository = "https://github.com/icehomura/RecurBusyBox/tree/main/src/uu/tar"
+version.workspace = true
+license.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+readme.workspace = true
+
+[lib]
+path = "src/tar.rs"
+doctest = false
+
+[dependencies]
+clap = { workspace = true }
+uucore = { workspace = true }
+flate2 = { version = "1", default-features = false, features = ["rust_backend"] }
+tar = "0.4"
+lzma-rs = { version = "0.3", features = ["stream"] }
+bzip2-rs = "0.1"
+ruzstd = "0.9"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "tar"
+path = "src/main.rs"
