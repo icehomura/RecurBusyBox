@@ -1,0 +1,30 @@
+[package]
+name = "uu_jq"
+description = "jq ~ (recurbusybox)"
+repository = "https://github.com/icehomura/RecurBusyBox/tree/main/src/uu/jq"
+version.workspace = true
+license.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+readme.workspace = true
+
+[lib]
+path = "src/jq.rs"
+doctest = false
+
+[dependencies]
+clap = { workspace = true }
+uucore = { workspace = true }
+jaq-core = "3.1.1"
+jaq-json = "2.0.3"
+jaq-std = "3.0.3"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "jq"
+path = "src/main.rs"
