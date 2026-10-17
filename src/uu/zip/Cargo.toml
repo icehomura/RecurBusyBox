@@ -1,0 +1,29 @@
+[package]
+name = "uu_zip"
+description = "zip ~ (recurbusybox) zip archive creator"
+repository = "https://github.com/icehomura/RecurBusyBox/tree/main/src/uu/zip"
+version.workspace = true
+license.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+readme.workspace = true
+
+[lib]
+path = "src/zip.rs"
+doctest = false
+
+[dependencies]
+clap = { workspace = true }
+uucore = { workspace = true }
+zip = { workspace = true }
+walkdir = "2"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "zip"
+path = "src/main.rs"
