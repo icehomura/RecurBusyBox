@@ -324,6 +324,8 @@ extract = { optional = true, version = "0.13.0", package = "uu_extract", path = 
 tar = { optional = true, version = "0.13.0", package = "uu_tar", path = "src/uu/tar" }
 uu_zip = { optional = true, version = "0.13.0", path = "src/uu/zip" }
 zcat = { optional = true, version = "0.13.0", package = "uu_zcat", path = "src/uu/zcat" }
+ps = { optional = true, version = "0.13.0", package = "uu_ps", path = "src/uu/ps" }
+dust = { optional = true, version = "0.13.0", package = "uu_dust", path = "src/uu/dust" }
 rm = { optional = true, version = "0.13.0", package = "uu_rm", path = "src/uu/rm" }
 rmdir = { optional = true, version = "0.13.0", package = "uu_rmdir", path = "src/uu/rmdir" }
 seq = { optional = true, version = "0.13.0", package = "uu_seq", path = "src/uu/seq" }
@@ -467,7 +469,7 @@ feat_diagnostics = ["uucore/diagnostics"]
 # RecurBusyBox additions: high-performance search/edit tools built on the same
 # upstream Rust engines (ripgrep's `grep-*`, ast-grep's core, etc.). Grouped
 # under one feature so they can be toggled independently of the coreutils set.
-feat_recur_tools = ["rg", "fd", "sd", "astgrep", "jq", "tokei", "fzf", "xsv", "tree", "extract", "tar", "uu_zip", "zcat"]
+feat_recur_tools = ["rg", "fd", "sd", "astgrep", "jq", "tokei", "fzf", "xsv", "tree", "extract", "tar", "uu_zip", "zcat", "ps", "dust"]
 ## Optional feature for stdbuf
 # "feat_external_libstdbuf" == use an external libstdbuf.so for stdbuf instead of embedding it
 feat_external_libstdbuf = ["stdbuf/feat_external_libstdbuf"]
