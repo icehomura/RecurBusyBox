@@ -376,10 +376,29 @@ fn cmp_rows(a: &Row, b: &Row, key: Col) -> Ordering {
 
 fn print_table(opts: &Opts, rows: &[Row], now: u64) {
     let headers: Vec<&str> = opts.cols.iter().map(|c| c.header()).collect();
-    let cells: Vec<Vec<String>> = rows
+    let mut cells: Vec<Vec<String>> = rows
         .iter()
         .map(|r| opts.cols.iter().map(|c| r.cell(*c, now)).collect())
         .collect();
+
+    // Cap the COMMAND column. This output is read by agents, and a single long
+    // argv (a 4 KB Electron/Docker command line is routine) would otherwise
+    // stretch every row to match it, turning the table into an unreadable wall
+    // of padding. Truncate BEFORE measuring so the column width tracks the clip.
+    const MAX_COMMAND_WIDTH: usize = 80;
+    for (i, col) in opts.cols.iter().enumerate() {
+        if *col == Col::Command {
+            for row in &mut cells {
+                let cell = &mut row[i];
+                if cell.chars().count() > MAX_COMMAND_WIDTH {
+                    let mut clipped: String =
+                        cell.chars().take(MAX_COMMAND_WIDTH - 3).collect();
+                    clipped.push_str("...");
+                    *cell = clipped;
+                }
+            }
+        }
+    }
 
     let mut widths: Vec<usize> = headers.iter().map(|h| h.chars().count()).collect();
     for row in &cells {
