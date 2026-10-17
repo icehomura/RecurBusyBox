@@ -1,0 +1,31 @@
+[package]
+name = "uu_zcat"
+description = "zcat ~ (recurbusybox) decompress to stdout"
+repository = "https://github.com/icehomura/RecurBusyBox/tree/main/src/uu/zcat"
+version.workspace = true
+license.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+readme.workspace = true
+
+[lib]
+path = "src/zcat.rs"
+doctest = false
+
+[dependencies]
+clap = { workspace = true }
+uucore = { workspace = true }
+flate2 = { version = "1", default-features = false, features = ["rust_backend"] }
+ruzstd = "0.9"
+lzma-rs = { version = "0.3", features = ["stream"] }
+bzip2-rs = "0.1"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "zcat"
+path = "src/main.rs"
