@@ -1,0 +1,29 @@
+[package]
+name = "uu_fzf"
+description = "fzf ~ (recurbusybox)"
+repository = "https://github.com/icehomura/RecurBusyBox/tree/main/src/uu/fzf"
+version.workspace = true
+license.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+readme.workspace = true
+
+[lib]
+path = "src/fzf.rs"
+doctest = false
+
+[dependencies]
+clap = { workspace = true }
+uucore = { workspace = true }
+nucleo-matcher = "0.3"
+ignore = "0.4"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "fzf"
+path = "src/main.rs"
