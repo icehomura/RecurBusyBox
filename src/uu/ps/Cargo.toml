@@ -1,0 +1,28 @@
+[package]
+name = "uu_ps"
+description = "ps ~ (recurbusybox) list running processes"
+repository = "https://github.com/icehomura/RecurBusyBox/tree/main/src/uu/ps"
+version.workspace = true
+license.workspace = true
+homepage.workspace = true
+keywords.workspace = true
+categories.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+readme.workspace = true
+
+[lib]
+path = "src/ps.rs"
+doctest = false
+
+[dependencies]
+clap = { workspace = true }
+uucore = { workspace = true }
+sysinfo = "0.39"
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "ps"
+path = "src/main.rs"
