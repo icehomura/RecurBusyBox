@@ -23,3 +23,4 @@ lib*.a
 
 *.code-workspace
 .cargo/config.toml
+rust-toolchain.toml
