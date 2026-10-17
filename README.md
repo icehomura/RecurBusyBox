@@ -12,6 +12,9 @@ RecurBusyBox is a fork of [uutils/coreutils](https://github.com/uutils/coreutils
 | `astgrep` | structural (AST) code search | ast-grep's `ast-grep-core` + tree-sitter |
 | `jq` | JSON processor | jaq (`jaq-core` + `jaq-json` + `jaq-std`) |
 | `tokei` | lines-of-code statistics | `tokei` |
+| `fzf` | non-interactive fuzzy filter | `nucleo-matcher` (Helix's matcher) |
+| `xsv` | CSV/TSV headers/select/search/freq/stats/sample | `csv` |
+| `tree` | directory tree renderer | `ignore` + `globset` |
 
 The coreutils set is included in full: releases build with `feat_os_unix` (Linux/macOS) or `feat_os_windows` (Windows), so every utility that compiles for the target ships.
 
