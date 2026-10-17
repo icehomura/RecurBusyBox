@@ -317,6 +317,9 @@ sd = { optional = true, version = "0.13.0", package = "uu_sd", path = "src/uu/sd
 astgrep = { optional = true, version = "0.13.0", package = "uu_astgrep", path = "src/uu/astgrep" }
 jq = { optional = true, version = "0.13.0", package = "uu_jq", path = "src/uu/jq" }
 tokei = { optional = true, version = "0.13.0", package = "uu_tokei", path = "src/uu/tokei" }
+fzf = { optional = true, version = "0.13.0", package = "uu_fzf", path = "src/uu/fzf" }
+xsv = { optional = true, version = "0.13.0", package = "uu_xsv", path = "src/uu/xsv" }
+tree = { optional = true, version = "0.13.0", package = "uu_tree", path = "src/uu/tree" }
 rm = { optional = true, version = "0.13.0", package = "uu_rm", path = "src/uu/rm" }
 rmdir = { optional = true, version = "0.13.0", package = "uu_rmdir", path = "src/uu/rmdir" }
 seq = { optional = true, version = "0.13.0", package = "uu_seq", path = "src/uu/seq" }
@@ -460,7 +463,7 @@ feat_diagnostics = ["uucore/diagnostics"]
 # RecurBusyBox additions: high-performance search/edit tools built on the same
 # upstream Rust engines (ripgrep's `grep-*`, ast-grep's core, etc.). Grouped
 # under one feature so they can be toggled independently of the coreutils set.
-feat_recur_tools = ["rg", "fd", "sd", "astgrep", "jq", "tokei"]
+feat_recur_tools = ["rg", "fd", "sd", "astgrep", "jq", "tokei", "fzf", "xsv", "tree"]
 ## Optional feature for stdbuf
 # "feat_external_libstdbuf" == use an external libstdbuf.so for stdbuf instead of embedding it
 feat_external_libstdbuf = ["stdbuf/feat_external_libstdbuf"]

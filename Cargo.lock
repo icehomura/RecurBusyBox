@@ -739,6 +739,7 @@ dependencies = [
  "uu_fd",
  "uu_fmt",
  "uu_fold",
+ "uu_fzf",
  "uu_groups",
  "uu_head",
  "uu_hostid",
@@ -804,6 +805,7 @@ dependencies = [
  "uu_tokei",
  "uu_touch",
  "uu_tr",
+ "uu_tree",
  "uu_true",
  "uu_truncate",
  "uu_tsort",
@@ -818,6 +820,7 @@ dependencies = [
  "uu_wc",
  "uu_who",
  "uu_whoami",
+ "uu_xsv",
  "uu_yes",
  "uucore",
  "uutests",
@@ -954,6 +957,27 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ce6e4c961d6cd6c9a86db418387425e8bdeaf05b3c8bc1411e6dca4c252f1453"
 dependencies = [
  "hybrid-array",
+]
+
+[[package]]
+name = "csv"
+version = "1.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "52cd9d68cf7efc6ddfaaee42e7288d3a99d613d4b50f76ce9827ae0c6e14f938"
+dependencies = [
+ "csv-core",
+ "itoa",
+ "ryu",
+ "serde_core",
+]
+
+[[package]]
+name = "csv-core"
+version = "0.1.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "704a3c26996a80471189265814dbc2c257598b96b8a7feae2d31ace646bb9782"
+dependencies = [
+ "memchr",
 ]
 
 [[package]]
@@ -2451,6 +2475,16 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7957b9740744892f114936ab4a57b3f487491bbeafaf8083688b16841a4240e5"
 dependencies = [
  "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "nucleo-matcher"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bf33f538733d1a5a3494b836ba913207f14d9d4a1d3cd67030c5061bdd2cac85"
+dependencies = [
+ "memchr",
+ "unicode-segmentation",
 ]
 
 [[package]]
@@ -4599,6 +4633,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "uu_fzf"
+version = "0.13.0"
+dependencies = [
+ "clap",
+ "ignore",
+ "nucleo-matcher",
+ "uucore",
+]
+
+[[package]]
 name = "uu_groups"
 version = "0.13.0"
 dependencies = [
@@ -5369,6 +5413,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "uu_tree"
+version = "0.13.0"
+dependencies = [
+ "clap",
+ "globset",
+ "ignore",
+ "uucore",
+]
+
+[[package]]
 name = "uu_true"
 version = "0.13.0"
 dependencies = [
@@ -5521,6 +5575,16 @@ dependencies = [
  "rustix",
  "uucore",
  "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "uu_xsv"
+version = "0.13.0"
+dependencies = [
+ "clap",
+ "csv",
+ "regex",
+ "uucore",
 ]
 
 [[package]]
