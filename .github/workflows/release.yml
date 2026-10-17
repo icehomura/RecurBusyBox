@@ -17,8 +17,8 @@ permissions:
   contents: write
 
 env:
-  # The portable core set plus RecurBusyBox's own tools.
-  FEATURES: feat_common_core,feat_recur_tools
+  # RecurBusyBox's own search/edit tools, added on top of the coreutils set.
+  RECUR_TOOLS: feat_recur_tools
 
 jobs:
   build:
@@ -31,18 +31,27 @@ jobs:
           - platform: windows-x86_64
             target: x86_64-pc-windows-msvc
             os: windows-latest
+            # `feat_os_windows` == the full set of utilities that build for
+            # modern Windows (feat_Tier1 + stdbuf).
+            features: feat_os_windows
           - platform: linux-x86_64
             target: x86_64-unknown-linux-gnu
             os: ubuntu-latest
+            # `feat_os_unix` == every utility that builds on unix
+            # (feat_Tier1 + the unix-only core/utmpx sets).
+            features: feat_os_unix
           - platform: linux-aarch64
             target: aarch64-unknown-linux-gnu
             os: ubuntu-latest
+            features: feat_os_unix
           - platform: darwin-x86_64
             target: x86_64-apple-darwin
             os: macos-latest
+            features: feat_os_unix
           - platform: darwin-aarch64
             target: aarch64-apple-darwin
             os: macos-latest
+            features: feat_os_unix
     steps:
       - uses: actions/checkout@v4
 
@@ -58,7 +67,7 @@ jobs:
           echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc" >> "$GITHUB_ENV"
 
       - name: Build
-        run: cargo build --release --locked --target ${{ matrix.target }} --no-default-features --features ${{ env.FEATURES }}
+        run: cargo build --release --locked --target ${{ matrix.target }} --no-default-features --features ${{ matrix.features }},${{ env.RECUR_TOOLS }}
 
       - name: Package
         shell: bash
