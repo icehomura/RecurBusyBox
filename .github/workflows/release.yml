@@ -1,6 +1,6 @@
 name: Release
 
-# Builds the `recurbusybox` multi-call binary for every platform RecurCode
+# Builds the `rb` multi-call binary for every platform RecurCode
 # ships on and publishes them as release assets. Asset names match RecurCode's
 # own platform keys (`windows-x86_64`, `darwin-aarch64`, `linux-x86_64`, ...)
 # so its component registry can wire URLs without a second mapping, and each
@@ -73,15 +73,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          out="recurbusybox-${{ matrix.platform }}"
+          out="rb-${{ matrix.platform }}"
           mkdir -p "dist/$out"
           if [[ "${{ runner.os }}" == "Windows" ]]; then
-            cp "target/${{ matrix.target }}/release/recurbusybox.exe" "dist/$out/recurbusybox.exe"
-            (cd "dist/$out" && 7z a "../$out.zip" recurbusybox.exe >/dev/null)
+            cp "target/${{ matrix.target }}/release/rb.exe" "dist/$out/rb.exe"
+            (cd "dist/$out" && 7z a "../$out.zip" rb.exe >/dev/null)
             archive="dist/$out.zip"
           else
-            cp "target/${{ matrix.target }}/release/recurbusybox" "dist/$out/recurbusybox"
-            tar -C "dist/$out" -czf "dist/$out.tar.gz" recurbusybox
+            cp "target/${{ matrix.target }}/release/rb" "dist/$out/rb"
+            tar -C "dist/$out" -czf "dist/$out.tar.gz" rb
             archive="dist/$out.tar.gz"
           fi
           if command -v sha256sum >/dev/null; then
@@ -93,7 +93,7 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
-          name: recurbusybox-${{ matrix.platform }}
+          name: rb-${{ matrix.platform }}
           path: |
             dist/*.zip
             dist/*.tar.gz

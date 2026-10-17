@@ -18,11 +18,11 @@ RecurBusyBox is a fork of [uutils/coreutils](https://github.com/uutils/coreutils
 
 The coreutils set is included in full: releases build with `feat_os_unix` (Linux/macOS) or `feat_os_windows` (Windows), so every utility that compiles for the target ships.
 
-Invoke it BusyBox-style (`recurbusybox rg ...`), or symlink/copy it under an applet name (`rg`) and it dispatches on `argv[0]`.
+Invoke it BusyBox-style (`rb rg ...`), or symlink/copy it under an applet name (`rg`) and it dispatches on `argv[0]`.
 
 ```console
-$ recurbusybox --list
-$ recurbusybox rg -n 'TODO' src
+$ rb --list
+$ rb rg -n 'TODO' src
 $ rg -i 'fn uumain' .            # same binary, argv[0] dispatch
 ```
 

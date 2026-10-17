@@ -6,7 +6,7 @@
 [package]
 name = "coreutils"
 description = "coreutils ~ GNU coreutils (updated); implemented as universal (cross-platform) utils, written in Rust"
-default-run = "recurbusybox"
+default-run = "rb"
 repository = "https://github.com/uutils/coreutils"
 edition.workspace = true
 rust-version.workspace = true
@@ -700,7 +700,7 @@ test = ["uu_test"]
 workspace = true
 
 [[bin]]
-name = "recurbusybox"
+name = "rb"
 path = "src/bin/coreutils.rs"
 
 [[bin]]

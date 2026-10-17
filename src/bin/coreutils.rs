@@ -61,14 +61,18 @@ fn main() {
 
     // binary name ends with util name?
     let is_coreutils = binary_as_util.ends_with("utils");
+    // RecurBusyBox ships as `rb`. Like `*box`, the multi-call spelling puts the
+    // utility name in the SECOND argument (`rb rg …`), so it takes the same
+    // branch rather than the argv[0]-suffix match below.
+    let is_multicall = is_coreutils || binary_as_util == "rb";
     let matched_util = utils
         .keys()
-        .filter(|&&u| binary_as_util.ends_with(u) && !is_coreutils)
+        .filter(|&&u| binary_as_util.ends_with(u) && !is_multicall)
         .max_by_key(|u| u.len()); //Prefer stty more than tty. *utils is not ls
 
     let util_name = if let Some(&util) = matched_util {
         Some(OsString::from(util))
-    } else if is_coreutils || binary_as_util.ends_with("box") {
+    } else if is_multicall || binary_as_util.ends_with("box") {
         // todo: Remove support of "*box" from binary
         uucore::set_utility_is_second_arg();
         args.next()
