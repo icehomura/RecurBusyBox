@@ -1,0 +1,134 @@
+name: Latest Build
+
+# Rolling "latest" pre-release built from main — PUBLIC, updated in place on
+# every main push.
+#
+# Trigger discipline: a `v*` tag push NEVER starts this workflow. `push` is
+# filtered to `branches: [main]`, and branch filters match branch refs only —
+# a tag ref (refs/tags/vX) is not a branch, so a tag push fires release.yml
+# (the official flow) and nothing here. Conversely an untagged push to main is
+# a branch ref, which never matches release.yml's `tags: ['v*']`. Exactly one
+# of the two flows can fire per push.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# `contents: write` is required to create/update the `latest` release with the
+# gh CLI. The repository (icehomura/RecurBusyBox) is public, so the release is
+# public too — `gh release create` without --draft publishes immediately.
+permissions:
+  contents: write
+
+concurrency:
+  group: latest-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  RECUR_TOOLS: feat_recur_tools
+
+jobs:
+  build:
+    name: build ${{ matrix.platform }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: windows-x86_64
+            target: x86_64-pc-windows-msvc
+            os: windows-latest
+            features: feat_os_windows
+          - platform: linux-x86_64
+            target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest
+            features: feat_os_unix
+          - platform: linux-aarch64
+            target: aarch64-unknown-linux-gnu
+            os: ubuntu-latest
+            features: feat_os_unix
+          - platform: darwin-x86_64
+            target: x86_64-apple-darwin
+            os: macos-latest
+            features: feat_os_unix
+          - platform: darwin-aarch64
+            target: aarch64-apple-darwin
+            os: macos-latest
+            features: feat_os_unix
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      - name: Install the aarch64-linux cross linker
+        if: matrix.target == 'aarch64-unknown-linux-gnu'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc-aarch64-linux-gnu
+          echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc" >> "$GITHUB_ENV"
+
+      - name: Build
+        run: cargo build --release --locked --target ${{ matrix.target }} --no-default-features --features ${{ matrix.features }},${{ env.RECUR_TOOLS }}
+
+      - name: Package
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="rb-${{ matrix.platform }}"
+          mkdir -p "dist/$out"
+          if [[ "${{ runner.os }}" == "Windows" ]]; then
+            cp "target/${{ matrix.target }}/release/rb.exe" "dist/$out/rb.exe"
+            (cd "dist/$out" && 7z a "../$out.zip" rb.exe >/dev/null)
+            archive="dist/$out.zip"
+          else
+            cp "target/${{ matrix.target }}/release/rb" "dist/$out/rb"
+            tar -C "dist/$out" -czf "dist/$out.tar.gz" rb
+            archive="dist/$out.tar.gz"
+          fi
+          if command -v sha256sum >/dev/null; then
+            sha256sum "$archive" | awk '{print $1}' > "$archive.sha256"
+          else
+            shasum -a 256 "$archive" | awk '{print $1}' > "$archive.sha256"
+          fi
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: rb-${{ matrix.platform }}
+          path: |
+            dist/*.zip
+            dist/*.tar.gz
+            dist/*.sha256
+          if-no-files-found: error
+
+  publish:
+    name: Publish rolling latest pre-release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Publish to the rolling `latest` pre-release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          # `--generate-notes` keeps `gh release create` non-interactive in CI.
+          # `latest` is a moving tag owned by this workflow; official `v*`
+          # releases are a different tag namespace and are never touched here.
+          gh release view latest --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1 \
+            || gh release create latest \
+                 --prerelease \
+                 --title "Latest build" \
+                 --target "$GITHUB_SHA" \
+                 --generate-notes \
+                 --repo "$GITHUB_REPOSITORY"
+          # Idempotent: --clobber replaces the assets from the previous push.
+          gh release upload latest artifacts/* --clobber --repo "$GITHUB_REPOSITORY"
